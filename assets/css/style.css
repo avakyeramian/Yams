@@ -1,0 +1,82 @@
+body {
+	min-height:100vh;
+	display:flex;
+	flex-direction:column;
+    font-family: Sans-serif,serif;
+    margin: 0;
+}
+
+header {
+    text-align: center;
+    background: green;
+    color: white;
+    padding: 1em 1em 1em 1em;
+}
+
+main {
+	flex-grow:1;
+    margin: 1em 1em 1em 1em;
+}
+
+#Yams{
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+    flex-direction: column;
+}
+/*
+#santa_gen{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+*/
+ul{
+    list-style: none;
+    padding: 0em 0em 0em 0em;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    width: 95vw;
+}
+
+tbody td,tbody th {
+    border: 1px solid #ddd;
+    padding: 0.3em;
+}
+
+thead th,thead tr {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    text-align: center;
+    background-color: green;
+    color: white;
+}
+
+footer {
+    background:  green;
+    color: white;
+}
+
+footer ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+}
+
+footer ul li a {
+	color:lightpink;
+    text-decoration: none;
+    margin: 1em 1em 1em 1em;
+}
+
+footer p {
+    background: darkgreen;
+    color: white;
+    margin: 0em 0em 0em 0em;
+    text-align: center;
+    padding: 0em 1em 0em 1em;
+}
