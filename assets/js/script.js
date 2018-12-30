@@ -64,28 +64,18 @@ function content()
 			for(var item in yams_array){
 				var row = yams_table.insertRow();
 				var combi = row.insertCell(0);
-				var joueur = row.insertCell(1);
 				combi.innerHTML = yams_array[item].name;
-				
-				if( (yams_array[item].name!="Somme") && (yams_array[item].name!="Bonus") && (yams_array[item].name!="Total") ){
-					var input = document.createElement("input");
-					input.setAttribute("type","number");
-					input.setAttribute("min",yams_array[item].min);
-					input.setAttribute("max",yams_array[item].max);
-					input.setAttribute("step",yams_array[item].step);
-					joueur.append(input);
-				}
-
 			}
 			
 			var header = yams_table.createTHead();
 			var row_header = header.insertRow(0);
 			var joueurs_header = row_header.insertCell(0);
-			var joueur1_header = row_header.insertCell(1);
 			joueurs_header.innerHTML = "Joueurs";
-			joueur1_header.innerHTML = "Joueurs 1";
 			
 			yams_app.append(yams_table);
+            
+            ajoutJoueur("Robert");
+            ajoutJoueur("Didier");
 		}
 		
 
@@ -93,14 +83,35 @@ function content()
 			MAJ Somme, Bonus et Total
 		*/
 		function updateTotals(){
-			
+			console.log("ez");
 		}
 		
 		/* 
 			Ajoute un joueur
 		*/
-		function addPlayer(){
-			
+		function ajoutJoueur(jacky){
+            var yams_table = document.getElementById("yams_table");
+            if(yams_table){
+                var num_joueur = yams_table.rows[1].cells.length;
+                
+                for(var item in yams_array){
+                    var row = yams_table.rows[parseInt(item)+1];
+                    var valeur = row.insertCell(num_joueur);
+                    valeur.setAttribute("class","td_input");
+                    if( (yams_array[item].name!="Somme") && (yams_array[item].name!="Bonus") && (yams_array[item].name!="Total") ){
+                        var input = document.createElement("input");
+                        input.setAttribute("type","number");
+                        input.setAttribute("min",yams_array[item].min);
+                        input.setAttribute("max",yams_array[item].max);
+                        input.setAttribute("step",yams_array[item].step);
+                        valeur.append(input);
+                        input.onchange = updateTotals;
+                    }
+                }
+                
+                var joueur_header = yams_table.rows[0].insertCell(num_joueur);
+                joueur_header.innerHTML = jacky;
+            }            
 		}
 	}
 }

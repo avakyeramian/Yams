@@ -24,13 +24,7 @@ main {
     align-items: center;
     flex-direction: column;
 }
-/*
-#santa_gen{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-*/
+
 ul{
     list-style: none;
     padding: 0em 0em 0em 0em;
@@ -44,7 +38,7 @@ table {
 }
 
 tbody td,tbody th {
-    border: 1px solid #ddd;
+    border: 1px solid lightgrey;
     padding: 0.3em;
 }
 
@@ -54,6 +48,23 @@ thead th,thead tr {
     text-align: center;
     background-color: green;
     color: white;
+}
+
+
+.td_input {
+    text-align: center;
+}
+
+input[type=number] { 
+  -moz-appearance: textfield;
+  appearance: textfield;
+  margin: 0; 
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
 }
 
 footer {
