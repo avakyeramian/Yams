@@ -20,9 +20,14 @@ main {
 
 #Yams{
     display: flex;
-    /*justify-content: center;*/
     align-items: center;
     flex-direction: column;
+}
+
+.overflow{
+    text-align: center;
+    overflow-x: auto;
+    width: 95vw;
 }
 
 ul{
@@ -31,10 +36,12 @@ ul{
 }
 
 table {
+    display: inline-block;
+    text-align: left;
     border-collapse: collapse;
     margin-top: 1em;
     margin-bottom: 1em;
-    width: 95vw;
+    border: 1px solid lightgrey;
 }
 
 tbody td,tbody th {
@@ -50,21 +57,45 @@ thead th,thead tr {
     color: white;
 }
 
+.boutton_add {
+    background-color: green;
+    border: lightgrey;
+    border-radius: 0.5em;
+    color: white;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0.2em 0.2em 0.2em 0.2em;
+    cursor: pointer;
+}
+
+.boutton_rem {
+    background-color: red;
+    border: lightgrey;
+    border-radius: 0.5em;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0em 0.2em 0em 0.2em;
+    cursor: pointer;
+}
 
 .td_input {
     text-align: center;
 }
 
 input[type=number] { 
-  -moz-appearance: textfield;
-  appearance: textfield;
-  margin: 0; 
+    -moz-appearance: textfield;
+    appearance: textfield;
+    margin: 0;
 }
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
-      -webkit-appearance: none; 
-      margin: 0; 
+    -webkit-appearance: none; 
+    margin: 0; 
 }
 
 footer {
