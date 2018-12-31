@@ -80,10 +80,37 @@ function content()
 		
 
 		/* 
-			MAJ Somme, Bonus et Total
+			MAJ Somme, Bonus et Total pour le joueur num
 		*/
-		function updateTotals(){
-			console.log("ez");
+		function updateTotal(num_joueur){
+			var yams_table = document.getElementById("yams_table");
+            if(yams_table){
+                var somme=0,bonus=0,total=0;
+                var somme_div = yams_table.getElementsByClassName("Somme")[num_joueur-1];
+                var bonus_div = yams_table.getElementsByClassName("Bonus")[num_joueur-1];
+                var total_div = yams_table.getElementsByClassName("Total")[num_joueur-1];
+
+                for(var item in yams_array){
+                    var row = yams_table.rows[parseInt(item)+1];
+                    var valeur = row.cells[num_joueur];
+                    if( (yams_array[item].name!="Somme") && (yams_array[item].name!="Bonus") && (yams_array[item].name!="Total") ){
+                        if(["Les 1", "Les 2","Les 3", "Les 4","Les 5", "Les 6"].indexOf(yams_array[item].name) >= 0){
+                            somme = parseInt(valeur.firstChild.value) + somme;
+ 
+                        }else{
+                            total = parseInt(valeur.firstChild.value) + total;
+                        }
+                    }                    
+                }
+                    
+                if(somme>=63){ bonus = 35 }else{ bonus = 0}
+
+                total = total + somme + bonus;
+
+                somme_div.innerHTML = somme;
+                bonus_div.innerHTML = bonus;
+                total_div.innerHTML = total;
+            }
 		}
 		
 		/* 
@@ -104,8 +131,14 @@ function content()
                         input.setAttribute("min",yams_array[item].min);
                         input.setAttribute("max",yams_array[item].max);
                         input.setAttribute("step",yams_array[item].step);
+                        input.setAttribute("value","0");
                         valeur.append(input);
-                        input.onchange = updateTotals;
+                        input.onchange = function(){updateTotal(num_joueur)};
+                    }else{
+                        var init = document.createElement("div");
+                        init.setAttribute("class",yams_array[item].name);
+                        init.innerHTML = 0;
+                        valeur.append(init);
                     }
                 }
                 
