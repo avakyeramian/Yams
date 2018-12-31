@@ -103,7 +103,7 @@ function content()
                     }                    
                 }
                     
-                if(somme>=63){ bonus = 35 }else{ bonus = 0}
+                if(somme>=63){ bonus = 37 }else{ bonus = 0}
 
                 total = total + somme + bonus;
 
