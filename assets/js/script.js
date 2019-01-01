@@ -247,8 +247,8 @@ function content()
         div_overflow.append(yams_table);
         yams_app.append(div_overflow);
         
-        addPlayer("Robert");
-        addPlayer("Didier");
+        //addPlayer("Robert");
+        //addPlayer("Didier");
     }
     
     
