@@ -50,6 +50,7 @@ function content()
 
         createPlayerInput();
         createTableYams();
+        printButton();
 	}
     
     /* -- fonctions -- */
@@ -167,6 +168,7 @@ function content()
     */
     function createPlayerInput() {
         var div_add = document.createElement("div");
+        div_add.setAttribute("class","add_input");
 
         var input_add = document.createElement("input");
         input_add.setAttribute("type","text");
@@ -180,7 +182,7 @@ function content()
                     addPlayer(new_player);
                     event.target.value = "";
                 }else{
-                    addPlayer(" ");
+                    addPlayer("________");
                     event.target.value = "";
                 }
             }
@@ -196,7 +198,7 @@ function content()
                 addPlayer(new_player);
                 event.target.value = "";
             }else{
-                addPlayer(" ");
+                addPlayer("________");
                 event.target.value = "";
             }
         }
@@ -204,6 +206,21 @@ function content()
         
         yams_app.append(div_add);
     }
+    
+    /*
+        Boutton pour imprime le tableau
+    */
+    function printButton(){
+        var button_print = document.createElement("button");
+        button_print.setAttribute("class","boutton_print");
+        button_print.innerHTML = "Imprimer 🖨️"
+        button_print.onclick = function(){
+            window.print();
+        }
+                
+        yams_app.append(button_print);
+    }
+    
 
     /* 
         Fait un tableau pour le Yams pour un joueur 
@@ -219,6 +236,7 @@ function content()
             var row = yams_table.insertRow();
             var combi = row.insertCell(0);
             combi.innerHTML = yams_array[item].name;
+            combi.setAttribute("class","combi");
         }
 
         var header = yams_table.createTHead();
@@ -244,7 +262,7 @@ function content()
     
     
     /*
-        convertir du ascii en "hexa"
+        Convertir du ascii en "hexa"
     */
     function asciiToHexa(str) {
         var arr1 = [];
