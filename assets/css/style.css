@@ -34,6 +34,10 @@ main {
     white-space: nowrap
 }
 
+.Somme, .Bonus, .Total{
+    text-align: left;
+}
+
 ul{
     list-style: none;
     padding: 0em 0em 0em 0em;
