@@ -49,8 +49,7 @@ function content()
         var yams_array = [les1,les2,les3,les4,les5,les6,somme,bonus,brelan,carré,full,petiteSuite,grandeSuite,leYams,chance,total]; 
 
         createPlayerInput();
-        createTableYams();
-        printButton();
+        
 	}
     
     /* -- fonctions -- */
@@ -149,7 +148,13 @@ function content()
                 if(yams_table.rows[row].cells){
                     yams_table.rows[row].cells[num_col].remove();               
                 }
-
+            }
+            
+            var nb_joueurs = yams_table.rows[1].cells.length-1;
+            if(nb_joueurs<=0){
+                yams_table.remove();
+                var boutton_print = document.getElementById("boutton_print");
+                boutton_print.remove();
             }
         }
     }
@@ -166,7 +171,7 @@ function content()
     /*
         Affiche le bouton/input pour créer un joueur
     */
-    function createPlayerInput() {
+    function createPlayerInput() {    
         var div_add = document.createElement("div");
         div_add.setAttribute("class","add_input");
 
@@ -177,6 +182,10 @@ function content()
         input_add.setAttribute("size","28");
         input_add.onkeyup = function(event){
             if (event.key === "Enter") {
+                if(!(document.getElementById("yams_table"))){
+                    createTableYams();
+                    printButton();    
+                }
                 var new_player = event.target.value;
                 if(new_player!=""){
                     addPlayer(new_player);
@@ -193,6 +202,10 @@ function content()
         boutton_add.setAttribute("class","boutton_add");
         boutton_add.innerHTML = "+";
         boutton_add.onclick = function(event){
+            if(!(document.getElementById("yams_table"))){
+                createTableYams();
+                printButton();    
+            }
             var new_player = event.target.parentElement.firstChild.value;
             if(new_player!=""){
                 addPlayer(new_player);
@@ -212,7 +225,7 @@ function content()
     */
     function printButton(){
         var button_print = document.createElement("button");
-        button_print.setAttribute("class","boutton_print");
+        button_print.setAttribute("id","boutton_print");
         button_print.innerHTML = "Imprimer 🖨️"
         button_print.onclick = function(){
             window.print();

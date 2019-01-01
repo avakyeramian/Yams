@@ -133,7 +133,7 @@ footer p {
         font-size: 15pt;
     }
     
-    .add_input, .boutton_rem, .boutton_print {
+    .add_input, .boutton_rem, #boutton_print {
         display: none;
     }
 
