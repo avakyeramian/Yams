@@ -71,12 +71,17 @@ function content()
             for(var item in yams_array){
                 var row = yams_table.rows[parseInt(item)+1];
                 var valeur = row.cells[num_col];
+                var val_input;
                 if( (yams_array[item].name!="Somme") && (yams_array[item].name!="Bonus") && (yams_array[item].name!="Total") ){
+                    val_input = parseInt(valeur.firstChild.value);
+
+                    if(isNaN(val_input)) val_input = 0;
+                    
                     if(["Les 1", "Les 2","Les 3", "Les 4","Les 5", "Les 6"].indexOf(yams_array[item].name) >= 0){
-                        somme = parseInt(valeur.firstChild.value) + somme;
+                        somme = val_input + somme;
 
                     }else{
-                        total = parseInt(valeur.firstChild.value) + total;
+                        total = val_input + total;
                     }
                 }                    
             }
@@ -85,9 +90,9 @@ function content()
 
             total = total + somme + bonus;
 
-            somme_div.innerHTML = somme;
-            bonus_div.innerHTML = bonus;
-            total_div.innerHTML = total;
+            somme_div.value = somme;
+            bonus_div.value = bonus;
+            total_div.value = total;
         }
     }
 
@@ -111,11 +116,13 @@ function content()
                     input.setAttribute("min",yams_array[item].min);
                     input.setAttribute("max",yams_array[item].max);
                     input.setAttribute("step",yams_array[item].step);
-                    input.setAttribute("value","0");
+                    //input.setAttribute("value","0");
                     valeur.append(input);
                     input.onchange = function(){updateTotal(hash)};
                 }else{
-                    var init = document.createElement("div");
+                    var init = document.createElement("input");
+                    init.setAttribute("type","number");
+                    init.setAttribute("disabled","true");
                     init.setAttribute("class",yams_array[item].name);
                     init.innerHTML = 0;
                     valeur.append(init);
