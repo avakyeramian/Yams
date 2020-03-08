@@ -50,18 +50,61 @@ function content()
 
         createPlayerInput();
         
+        var yamsScores = getYamsScores();
+
+        if(Object.keys(yamsScores).length>0){
+            //réafficher les scores
+            createTableYams(); 
+            for(var player in yamsScores){
+                addPlayer(player,yamsScores[player]);
+                updateTotal(player);
+            }
+        }else{
+            //console.log("Nouveau tableau des scores");
+            setYamsScores(yamsScores)
+        }
+        
 	}
     
     /* -- fonctions -- */
+    
+    /* 
+        Récuperer les scores venant du localStorage "en cache"
+    */
+    function getYamsScores(){
+        //console.log("Récupereration du tableau des scores");
+        var yamsScores;
+        var yamsScores_json = localStorage.getItem("yamsScores");
+        var yamsScores_parsed = JSON.parse(yamsScores_json);
+        if(yamsScores_parsed!==null){
+            yamsScores = yamsScores_parsed;
+        }
+        else{
+            yamsScores = {};
+        }
 
+        return yamsScores;
+    }
+    
+    
+    /* 
+        Mise a jour des scores vers le localStorage "en cache"
+    */
+    function setYamsScores(yamsScores){
+        //console.log("Mise a jour du tableau des scores");
+        var yamsScores_json = JSON.stringify(yamsScores);
+        localStorage.setItem("yamsScores",yamsScores_json);
+    }
 
     /* 
         MAJ Somme, Bonus et Total pour le joueur num
     */
-    function updateTotal(hash){
+    function updateTotal(player){
         var yams_table = document.getElementById("yams_table");
         if(yams_table){
-            var num_col = getColByHash(hash);
+            var num_col = getColByPlayer(player);
+            
+            var yamsScores = getYamsScores();
             
             var somme=0,bonus=0,total=0;
             var somme_div = yams_table.getElementsByClassName("Somme")[num_col-1];
@@ -74,6 +117,15 @@ function content()
                 var val_input;
                 if( (yams_array[item].name!="Somme") && (yams_array[item].name!="Bonus") && (yams_array[item].name!="Total") ){
                     val_input = parseInt(valeur.firstChild.value);
+                    
+                    //console.log(yams_array[item].name+" : "+val_input);
+                    var combi = yams_array[item].name;
+                    
+                    if(typeof yamsScores[player] === 'undefined'){
+                        yamsScores[player] = {};
+                    }
+                    
+                    yamsScores[player][combi] = val_input;
 
                     if(isNaN(val_input)) val_input = 0;
                     
@@ -85,6 +137,8 @@ function content()
                     }
                 }                    
             }
+            
+            setYamsScores(yamsScores);
 
             if(somme>=63){ bonus = 37 }else{ bonus = 0}
 
@@ -99,13 +153,10 @@ function content()
     /* 
         Ajoute un joueur
     */
-    function addPlayer(jacky){
+    function addPlayer(player,score){
         var yams_table = document.getElementById("yams_table");
         if(yams_table){
             var num_joueur = yams_table.rows[1].cells.length;
-            
-            var hash = derpyHash(jacky,num_joueur);
-            
             for(var item in yams_array){
                 var row = yams_table.rows[parseInt(item)+1];
                 var valeur = row.insertCell(num_joueur);
@@ -116,9 +167,13 @@ function content()
                     input.setAttribute("min",yams_array[item].min);
                     input.setAttribute("max",yams_array[item].max);
                     input.setAttribute("step",yams_array[item].step);
-                    //input.setAttribute("value","0");
+                    if(score!==null){
+                        if(score[yams_array[item].name]!==null){
+                            input.setAttribute("value",score[yams_array[item].name]);
+                        }
+                    }
                     valeur.append(input);
-                    input.onchange = function(){updateTotal(hash)};
+                    input.onchange = function(){updateTotal(player)};
                 }else{
                     var init = document.createElement("input");
                     init.setAttribute("type","number");
@@ -130,26 +185,28 @@ function content()
             }
 
             var joueur_header = yams_table.rows[0].insertCell(num_joueur);
-            joueur_header.setAttribute("id",hash);
-            joueur_header.innerHTML = jacky;
+            joueur_header.setAttribute("id",player);
+            joueur_header.innerHTML = player;
             
             var boutton_rem = document.createElement("button");
             boutton_rem.setAttribute("class","boutton_rem");
             boutton_rem.innerHTML = "-";
             boutton_rem.onclick = function(){
-                remPlayer(hash);
+                remPlayer(player);
             }
             joueur_header.append(boutton_rem);
+            
+            updateTotal(player);
         }            
     }
     
     /* 
         Suprime un joueur
     */
-    function remPlayer(hash){
+    function remPlayer(player){
         var yams_table = document.getElementById("yams_table");
         if(yams_table){
-            var num_col = getColByHash(hash);
+            var num_col = getColByPlayer(player);
             
             for(var row in yams_table.rows){
                 if(yams_table.rows[row].cells){
@@ -160,17 +217,18 @@ function content()
             var nb_joueurs = yams_table.rows[1].cells.length-1;
             if(nb_joueurs<=0){
                 yams_table.remove();
-                var boutton_print = document.getElementById("boutton_print");
-                boutton_print.remove();
             }
         }
+        var yamsScores = getYamsScores();
+        delete yamsScores[player];
+        setYamsScores(yamsScores);
     }
     
     /*
-        Recupère la colone d'un joueur par son hash
+        Recupère la colone d'un joueur par son player
     */
-    function getColByHash(hash) {
-        var header = document.getElementById(hash);
+    function getColByPlayer(player) {
+        var header = document.getElementById(player);
         var col = header.cellIndex;
         return col;
     }
@@ -190,15 +248,16 @@ function content()
         input_add.onkeyup = function(event){
             if (event.key === "Enter") {
                 if(!(document.getElementById("yams_table"))){
-                    createTableYams();
-                    printButton();    
+                    createTableYams(); 
                 }
+                var yams_table = document.getElementById("yams_table");
+                var num_joueur = yams_table.rows[1].cells.length;
                 var new_player = event.target.value;
                 if(new_player!=""){
-                    addPlayer(new_player);
+                    addPlayer(new_player+ "_" + num_joueur,null);
                     event.target.value = "";
                 }else{
-                    addPlayer("________");
+                    addPlayer("Jackie"+ "_" + num_joueur,null);
                     event.target.value = "";
                 }
             }
@@ -210,37 +269,23 @@ function content()
         boutton_add.innerHTML = "+";
         boutton_add.onclick = function(event){
             if(!(document.getElementById("yams_table"))){
-                createTableYams();
-                printButton();    
+                createTableYams();   
             }
+            var yams_table = document.getElementById("yams_table");
+            var num_joueur = yams_table.rows[1].cells.length;
             var new_player = event.target.parentElement.firstChild.value;
             if(new_player!=""){
-                addPlayer(new_player);
-                event.target.value = "";
+                addPlayer(new_player+ "_" + num_joueur,null);
+                event.target.parentElement.firstChild.value = "";
             }else{
-                addPlayer("________");
-                event.target.value = "";
+                addPlayer("Jackie"+ "_" + num_joueur,null);
+                event.target.parentElement.firstChild.value = "";
             }
         }
         div_add.append(boutton_add);
         
         yams_app.append(div_add);
     }
-    
-    /*
-        Boutton pour imprime le tableau
-    */
-    function printButton(){
-        var button_print = document.createElement("button");
-        button_print.setAttribute("id","boutton_print");
-        button_print.innerHTML = "Imprimer 🖨️"
-        button_print.onclick = function(){
-            window.print();
-        }
-                
-        yams_app.append(button_print);
-    }
-    
 
     /* 
         Fait un tableau pour le Yams pour un joueur 
@@ -267,29 +312,21 @@ function content()
         div_overflow.append(yams_table);
         yams_app.append(div_overflow);
         
-        //addPlayer("Robert");
-        //addPlayer("Didier");
+        clearButton()
     }
     
-    
-    /*
-        La pire fonction de hachage
+    /* 
+        Bouton pour effacer les scores du localStorage "en cache" et rafraichi la page
     */
-    function derpyHash(booo,num){
-        var hash = parseInt(asciiToHexa(booo)) + Math.ceil((Math.PI*621*num)/(Math.E*0.0001));
-        return hash;
-    }
-    
-    
-    /*
-        Convertir du ascii en "hexa"
-    */
-    function asciiToHexa(str) {
-        var arr1 = [];
-        for (var n = 0, l = str.length; n < l; n ++) {
-            var hex = Number(str.charCodeAt(n)).toString(16);
-            arr1.push(hex);
+    function clearButton(){
+        var button_clear = document.createElement("button");
+        button_clear.setAttribute("id","button_clear");
+        button_clear.innerHTML = "Effacer les scores ❌"
+        button_clear.onclick = function(){
+            setYamsScores({});
+            location.reload(); 
         }
-        return arr1.join('');
+                
+        yams_app.append(button_clear);
     }
 }
