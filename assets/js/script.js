@@ -44,9 +44,10 @@ function content()
         var grandeSuite = {name:"Grande Suite", min:0, max:40, step:40};
         var leYams = {name:"Yams", min:0, max:50, step:50};
         var chance = {name:"Chance", min:0, max:30, step:1};
+		var coupsAvance = {name:"[Coups d'avance]", min:0, max:50, step:1};
         var total = {name:"Total"};
 
-        var yams_array = [les1,les2,les3,les4,les5,les6,somme,bonus,brelan,carré,full,petiteSuite,grandeSuite,leYams,chance,total]; 
+        var yams_array = [les1,les2,les3,les4,les5,les6,somme,bonus,brelan,carré,full,petiteSuite,grandeSuite,leYams,chance,coupsAvance,total]; 
 
         createPlayerInput();
         
@@ -115,7 +116,7 @@ function content()
                 var row = yams_table.rows[parseInt(item)+1];
                 var valeur = row.cells[num_col];
                 var val_input;
-                if( (yams_array[item].name!="Somme") && (yams_array[item].name!="Bonus") && (yams_array[item].name!="Total") ){
+                if( (yams_array[item].name!="Somme") && (yams_array[item].name!="Bonus") && (yams_array[item].name!="Total") && (yams_array[item].name!="[Coups d'avance]") ){
                     val_input = parseInt(valeur.firstChild.value);
                     
                     //console.log(yams_array[item].name+" : "+val_input);
