@@ -10,12 +10,17 @@ header {
     text-align: center;
     background: green;
     color: white;
-    padding: 1em 1em 1em 1em;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+}
+
+header h1 {
+    margin: 0.1em;
+    font-size: large;
 }
 
 main {
 	flex-grow:1;
-    margin: 1em 1em 1em 1em;
+    margin: 1em 0em 1em 0em;
 }
 
 #Yams {
@@ -100,6 +105,7 @@ input[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
     margin: 0;
+    width: 2em;
 }
 
 input[type=number]::-webkit-inner-spin-button, 
