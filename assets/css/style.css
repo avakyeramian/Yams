@@ -1,8 +1,8 @@
 body {
-	min-height:100vh;
-	display:flex;
-	flex-direction:column;
-    font-family: Sans-serif,serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: Sans-serif, serif;
     margin: 0;
 }
 
@@ -19,7 +19,7 @@ header h1 {
 }
 
 main {
-	flex-grow:1;
+    flex-grow: 1;
     margin: 1em 0em 1em 0em;
 }
 
@@ -39,13 +39,15 @@ main {
     white-space: nowrap
 }
 
-.Somme, .Bonus, .Total{
+.Somme,
+.Bonus,
+.Total {
     background-color: white;
     color: black;
     border: none;
 }
 
-ul{
+ul {
     list-style: none;
     padding: 0em 0em 0em 0em;
 }
@@ -59,12 +61,14 @@ table {
     border: 1px solid lightgrey;
 }
 
-tbody td,tbody th {
+tbody td,
+tbody th {
     border: 1px solid lightgrey;
     padding: 0.3em;
 }
 
-thead th,thead tr {
+thead th,
+thead tr {
     padding-top: 1em;
     padding-bottom: 1em;
     text-align: center;
@@ -72,18 +76,29 @@ thead th,thead tr {
     color: white;
 }
 
-.boutton_add {
+#button_ajoutJoueur {
     background-color: green;
     border: lightgrey;
     border-radius: 0.5em;
     color: white;
-    padding: 0.5em 0.5em 0.5em 0.5em;
+    padding: 0.3em 0.5em 0.3em 0.5em;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     margin: 0.2em 0.2em 0.2em 0.2em;
     cursor: pointer;
 }
+
+#button_commencerPartie {
+    display: inline-block;
+}
+
+ol {
+    padding: 0;
+    list-style-type: decimal-leading-zero;
+}
+
+
 
 .boutton_rem {
     background-color: red;
@@ -101,21 +116,21 @@ thead th,thead tr {
     text-align: center;
 }
 
-input[type=number] { 
+input[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
     margin: 0;
     width: 2em;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 footer {
-    background:  green;
+    background: green;
     color: white;
 }
 
@@ -126,7 +141,7 @@ footer ul {
 }
 
 footer ul li a {
-	color:lightpink;
+    color: lightpink;
     text-decoration: none;
     margin: 1em 1em 1em 1em;
 }
