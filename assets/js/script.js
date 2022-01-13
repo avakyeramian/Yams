@@ -159,8 +159,9 @@ const content = () => {
                         json_joueurTemp = json_partie.joueurs[ordre];
                         if (json_joueurTemp.id === id_aRemonter) {
                             if (ordre > 0) {
-                                json_partie.joueurs[ordre] = json_partie.joueurs[ordre-1];
-                                json_partie.joueurs[ordre-1] = json_joueurTemp;
+                                json_partie.joueurs[parseInt(ordre)] = 
+                                    json_partie.joueurs[parseInt(ordre)-1];
+                                json_partie.joueurs[parseInt(ordre)-1] = json_joueurTemp;
                             }
                             json_partie.joueurs
                             id_aRemonter = 0;
@@ -177,13 +178,11 @@ const content = () => {
                     let json_partie = restaurerPartie();
                     for (var ordre in json_partie.joueurs) {
                         json_joueurTemp = json_partie.joueurs[ordre];
-                        if (json_joueurTemp.id === id_aDescendre) {
-                            console.log(ordre)
-                            console.log(json_partie.joueurs.length - 1);
-                            console.log(json_partie.joueurs[ordre + 1])
+                        if (json_joueurTemp.id === id_aDescendre) {                           
                             if (ordre < json_partie.joueurs.length - 1) {
-                                json_partie.joueurs[ordre] = json_partie.joueurs[ordre + 1];
-                                json_partie.joueurs[ordre + 1] = json_joueurTemp;
+                                json_partie.joueurs[parseInt(ordre)] =
+                                    json_partie.joueurs[parseInt(ordre) + 1];
+                                json_partie.joueurs[parseInt(ordre)+1] = json_joueurTemp;
                             }
                             json_partie.joueurs
                             id_aDescendre = 0;
