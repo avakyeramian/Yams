@@ -76,6 +76,18 @@ thead tr {
     color: white;
 }
 
+@media only screen and (max-width: 360px) {
+    #input_ajoutJoueur {
+        width: 75vw;
+    }
+}
+@media only screen and (max-width: 265px) {
+    #input_ajoutJoueur {
+        width: 64vw;
+    }
+}
+
+
 #button_ajoutJoueur {
     background-color: green;
     border: lightgrey;
@@ -94,11 +106,27 @@ thead tr {
 }
 
 ol {
-    padding: 0;
+    padding-left: 1.8em;
     list-style-type: decimal-leading-zero;
 }
 
+li {
+    margin-bottom: 0.2em;
+}
 
+li button {
+    margin-right: 0.2em;
+}
+
+#div_boutonsResetCommencer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap-reverse;
+}
+
+#div_boutonsResetCommencer button {
+    margin: 0.1em;
+}
 
 .boutton_rem {
     background-color: red;

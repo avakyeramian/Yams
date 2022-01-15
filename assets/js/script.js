@@ -87,7 +87,7 @@ const content = () => {
     const domNouvellePartie = () => {
 
         let div_nouvellePartie = elemCreate("div", {
-            "class": "div_nouvellePartie"
+            "id": "div_nouvellePartie"
         }, "");
 
         let input_ajoutJoueur = elemCreate("input", {
@@ -205,72 +205,75 @@ const content = () => {
 
         div_nouvellePartie.append(ol_listeDesJoueurs);
 
+        let div_coupsAvance = elemCreate("div", {
+            "id": "div_coupsAvance"
+        }, "");
+
+        let input_checkboxCoupsAvance = elemCreate("input", {
+            "id": "input_checkboxCoupsAvance",
+            "name": "input_checkboxCoupsAvance",
+            "type": "checkbox",
+            "value": "input_checkboxCoupsAvance"
+        },"");
+
+        input_checkboxCoupsAvance.onclick = (evt) => {
+            let json_partie = restaurerPartie();
+            json_partie.coupsAvance = evt.target.checked;
+            sauvegarderPartie(json_partie);
+        }
+
+        let label_checkboxCoupsAvance = elemCreate("label", {
+            "for": "input_checkboxCoupsAvance"
+        }, "Coups d'avance");
+
+        input_checkboxCoupsAvance.checked = restaurerPartie().coupsAvance;
+
+        const regleCoupsAvance = () => {
+
+        }
+
+        div_coupsAvance.append(input_checkboxCoupsAvance);
+        div_coupsAvance.append(label_checkboxCoupsAvance);
+        div_nouvellePartie.append(div_coupsAvance);
+
+        let div_boutonsResetCommencer = elemCreate("div", {
+            "id": "div_boutonsResetCommencer"
+        }, "");
+
         let button_resetJoueurs = elemCreate("button", {
             "id": "button_resetJoueur",
         }, "Reset ❌");
         button_resetJoueurs.ondblclick = () => {
             nouvellePartie();
+            let input_checkboxCoupsAvance = document.getElementById("input_checkboxCoupsAvance");
+            input_checkboxCoupsAvance.checked = restaurerPartie().coupsAvance;
             actualiseListeDesJoueurs();
         }
-
-        div_nouvellePartie.append(button_resetJoueurs);
+        div_boutonsResetCommencer.append(button_resetJoueurs);
 
         let button_commencerPartie = elemCreate("button", {
                 "id": "button_commencerPartie"
             },
             "🎲 Commencer ▶️");
 
-        div_nouvellePartie.append(button_commencerPartie);
+        button_commencerPartie.onclick = () => {
+            let json_partie = restaurerPartie();
+
+            if (json_partie.joueurs.length > 0) {
+                json_partie.etat = "enCours";
+                sauvegarderPartie(json_partie);
+                let div_nouvellePartie = document.getElementById("div_nouvellePartie");
+                div_nouvellePartie.remove();
+            }
+        }
+        
+        div_boutonsResetCommencer.append(button_commencerPartie);
+
+        div_nouvellePartie.append(div_boutonsResetCommencer);
 
         div_yamsApp.append(div_nouvellePartie);
 
         actualiseListeDesJoueurs();
-
-        /*
-    function createPlayerInput() {
-
-        input_add.onkeyup = function (event) {
-            if (event.key === "Enter") {
-                if (!(document.getElementById("yams_table"))) {
-                    createTableYams();
-                }
-                var yams_table = document.getElementById("yams_table");
-                var num_joueur = yams_table.rows[1].cells.length;
-                var new_player = event.target.value;
-                if (new_player != "") {
-                    addPlayer(new_player + "_" + num_joueur, null);
-                    event.target.value = "";
-                } else {
-                    addPlayer("Jackie" + "_" + num_joueur, null);
-                    event.target.value = "";
-                }
-            }
-        };
-        div_add.append(input_add);
-
-        var boutton_add = document.createElement("button");
-        boutton_add.setAttribute("class", "boutton_add");
-        boutton_add.innerHTML = "+";
-        boutton_add.onclick = function (event) {
-            if (!(document.getElementById("yams_table"))) {
-                createTableYams();
-            }
-            var yams_table = document.getElementById("yams_table");
-            var num_joueur = yams_table.rows[1].cells.length;
-            var new_player = event.target.parentElement.firstChild.value;
-            if (new_player != "") {
-                addPlayer(new_player + "_" + num_joueur, null);
-                event.target.parentElement.firstChild.value = "";
-            } else {
-                addPlayer("Jackie" + "_" + num_joueur, null);
-                event.target.parentElement.firstChild.value = "";
-            }
-        }
-        div_add.append(boutton_add);
-
-        yams_app.append(div_add);
-    }
-        */
     };
 
 
@@ -281,19 +284,26 @@ const content = () => {
 
         let id_partie = window.btoa(encodeURIComponent(Date.now() + "_" + rnd_3xbase10));
         let dateCourante = new Date();
-        var json_nouvellePartie = {
+        let json_nouvellePartie = {
             "id": id_partie,
             "date": dateCourante.toISOString().replace("T", " ").slice(0, 19),
-            "joueurs": []
+            "coupsAvance" : true,
+            "joueurs": [],
+            "etat": "config"
         };
         sauvegarderPartie(json_nouvellePartie);
     }
 
-    if (!localStorage.getItem("partieYams") || localStorage.getItem("partieYams") === {}) {
+    if (!localStorage.getItem("partieYams")) {
         nouvellePartie();
         domNouvellePartie();
     } else {
-        domNouvellePartie();
+        let json_partie = restaurerPartie();
+        if (json_partie.etat === "config") {
+            domNouvellePartie();
+        } else {
+
+        }
     }
 
 }
