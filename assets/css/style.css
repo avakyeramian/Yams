@@ -54,26 +54,57 @@ ul {
 
 table {
     display: inline-block;
-    text-align: left;
     border-collapse: collapse;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    border: 1px solid lightgrey;
+    margin: 0em;
+    table-layout: fixed;
 }
 
-tbody td,
-tbody th {
+#table_tableScoreJoueurs {
+    resize: horizontal;
+    overflow: auto;
+}
+
+#table_figureYams {
+    text-align: right;
+    border: none
+}
+
+#tr_tableScoreYams {
+    display: flex;
+    align-items: stretch;
+}
+
+#table_figureYams td {
+    border: 1px solid transparent;
+    padding: 0.3em;
+    height: 1.5em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#td_tableScoreYamsFigure {
+    border: none;
+    padding: 0%;
+}
+
+#td_tableScoreJoueurs {
+    border: none;
+    padding: 0%;
+}
+
+.tableJoueurYams td {
     border: 1px solid lightgrey;
     padding: 0.3em;
+    height: 1.5em;
+    white-space: nowrap;
 }
 
-thead th,
-thead tr {
-    padding-top: 1em;
-    padding-bottom: 1em;
+.tableJoueurYams thead td {
     text-align: center;
     background-color: green;
     color: white;
+    min-width: 4em;
 }
 
 @media only screen and (max-width: 360px) {
@@ -81,6 +112,7 @@ thead tr {
         width: 75vw;
     }
 }
+
 @media only screen and (max-width: 265px) {
     #input_ajoutJoueur {
         width: 64vw;

@@ -84,6 +84,240 @@ const content = () => {
         return JSON.parse(localStorage.getItem("partieYams"));
     }
 
+    const domTableauPartieEnCours = () => {
+        let div_partieEnCours = elemCreate("div", {
+            "id": "div_partieEnCours"
+        }, "");
+
+        let les1 = {
+            class: "les1",
+            name: "Les 1",
+            min: 0,
+            max: 5,
+            step: 1
+        };
+        let les2 = {
+            class: "les2",
+            name: "Les 2",
+            min: 0,
+            max: 10,
+            step: 2
+        };
+        let les3 = {
+            class: "les3",
+            name: "Les 3",
+            min: 0,
+            max: 15,
+            step: 3
+        };
+        let les4 = {
+            class: "les4",
+            name: "Les 4",
+            min: 0,
+            max: 20,
+            step: 4
+        };
+        let les5 = {
+            class: "les5",
+            name: "Les 5",
+            min: 0,
+            max: 25,
+            step: 5
+        };
+        let les6 = {
+            class: "les6",
+            name: "Les 6",
+            min: 0,
+            max: 30,
+            step: 6
+        };
+        let somme = {
+            class: "somme",
+            name: "Somme"
+        };
+        let bonus = {
+            class: "bonus",
+            name: "Bonus"
+        };
+        let brelan = {
+            class: "brelan",
+            name: "Brelan",
+            min: 0,
+            max: 30,
+            step: 1
+        };
+        let carré = {
+            class: "carre",
+            name: "Carré",
+            min: 0,
+            max: 30,
+            step: 1
+        };
+        let full = {
+            class: "full",
+            name: "Full",
+            min: 0,
+            max: 25,
+            step: 25
+        };
+        let petiteSuite = {
+            class: "petiteSuite",
+            name: "Petite Suite",
+            min: 0,
+            max: 30,
+            step: 30
+        };
+        let grandeSuite = {
+            class: "grandeSuite",
+            name: "Grande Suite",
+            min: 0,
+            max: 40,
+            step: 40
+        };
+        let leYams = {
+            class: "leYams",
+            name: "Yams",
+            min: 0,
+            max: 50,
+            step: 50
+        };
+        let chance = {
+            class: "chance",
+            name: "Chance",
+            min: 0,
+            max: 30,
+            step: 1
+        };
+        let coupsAvance = {
+            class: "coupsAvance",
+            name: "Cps d'avance",
+            min: 0,
+            max: 99,
+            step: 1
+        };
+        let total = {
+            class: "total",
+            name: "Total"
+        };
+
+        let array_yams = [les1, les2, les3, les4, les5, les6, somme, bonus, brelan, carré, full,
+            petiteSuite, grandeSuite, leYams, chance, coupsAvance, total
+        ];
+
+        let div_tableScore = elemCreate("div", {
+            "id": "div_tableScore"
+        }, "");
+
+        let table_tableScoreYams = elemCreate("table", {
+            "id": "table_tableScoreYams"
+        }, "");
+
+        let tr_tableScoreYams = elemCreate("tr", {
+            "id": "tr_tableScoreYams"
+        }, "");
+        let td_tableScoreYamsFigure = elemCreate("td", {
+            "id": "td_tableScoreYamsFigure"
+        }, "");
+
+        let td_tableScoreJoueurs = elemCreate("td", {
+            "id": "td_tableScoreJoueurs"
+        }, "");
+
+        let table_figureYams = elemCreate("table", {
+            "id": "table_figureYams"
+        }, "");
+
+
+        let tr_joueurYams = elemCreate("tr", {}, "");
+        let td_joueurYams = elemCreate("td", {}, "");
+        tr_joueurYams.append(td_joueurYams);
+        table_figureYams.append(tr_joueurYams);
+
+        for (var i in array_yams) {
+            let figureYams = array_yams[i];
+            let tr_figureYams = elemCreate("tr", {}, "");
+            let td_figureYams = elemCreate("td", {}, figureYams.name);
+            tr_figureYams.append(td_figureYams);
+            table_figureYams.append(tr_figureYams);
+            //console.log(figureYams);
+        }
+        td_tableScoreYamsFigure.append(table_figureYams);
+        tr_tableScoreYams.append(td_tableScoreYamsFigure);
+
+        let table_tableScoreJoueurs = elemCreate("table", {
+            "id": "table_tableScoreJoueurs"
+        }, "");
+        let tr_tableScoreJoueurs = elemCreate("tr", {}, "");
+        let json_partie = restaurerPartie();
+        for (var j in json_partie.joueurs) {
+            let json_joueurYams = json_partie.joueurs[j]
+            console.log(json_joueurYams);
+            let td_joueurTemp = elemCreate("td", {}, "");
+
+            let table_joueurTemp = elemCreate("table", {
+                "id": json_joueurYams.id,
+                "class": "tableJoueurYams"
+            }, "");
+
+            let thead_joueurTemp = elemCreate("thead", {}, "");
+            let tr_theadJoeurTemp = elemCreate("tr", {}, "");
+            let td_theadJoeurTemp = elemCreate("td", {}, json_joueurYams.nom);
+            tr_theadJoeurTemp.append(td_theadJoeurTemp);
+            thead_joueurTemp.append(tr_theadJoeurTemp);
+            table_joueurTemp.append(thead_joueurTemp);
+
+            let tbody_joueurTemp = elemCreate("tbody", {}, "");
+
+            for (var i in array_yams) {
+                let figureYams = array_yams[i];
+                let tr_figureYams = elemCreate("tr", {}, "");
+                if (figureYams.name !== "Somme" &&
+                    figureYams.name !== "Bonus" &&
+                    figureYams.name !== "Total"
+                ) {
+                    let td_figureYams = elemCreate("td", {
+                        "class": "td_input"
+                    }, "");
+                    let input_numberYams = elemCreate("input", {
+                        "type": "number",
+                        "min": figureYams.min,
+                        "max": figureYams.max,
+                        "step": figureYams.step,
+                    }, "");
+                    td_figureYams.append(input_numberYams);
+                    tr_figureYams.append(td_figureYams);
+                } else {
+                    let td_figureYams = elemCreate("td", {}, "");
+                    tr_figureYams.append(td_figureYams);
+                }
+
+                tbody_joueurTemp.append(tr_figureYams);
+                console.log(figureYams);
+            }
+
+            table_joueurTemp.append(tbody_joueurTemp);
+
+            td_joueurTemp.append(table_joueurTemp);
+
+            tr_tableScoreJoueurs.append(td_joueurTemp);
+        }
+
+        table_tableScoreJoueurs.append(tr_tableScoreJoueurs);
+        td_tableScoreJoueurs.append(table_tableScoreJoueurs);
+        tr_tableScoreYams.append(td_tableScoreJoueurs);
+
+        table_tableScoreYams.append(tr_tableScoreYams);
+
+        div_tableScore.append(table_tableScoreYams);
+
+        div_partieEnCours.append(div_tableScore);
+
+        div_yamsApp.append(div_partieEnCours);
+    }
+
+    /**
+     * Affiche l'interface pour la configuration d'une nouvelle partie de Yams.
+     */
     const domNouvellePartie = () => {
 
         let div_nouvellePartie = elemCreate("div", {
@@ -159,9 +393,9 @@ const content = () => {
                         json_joueurTemp = json_partie.joueurs[ordre];
                         if (json_joueurTemp.id === id_aRemonter) {
                             if (ordre > 0) {
-                                json_partie.joueurs[parseInt(ordre)] = 
-                                    json_partie.joueurs[parseInt(ordre)-1];
-                                json_partie.joueurs[parseInt(ordre)-1] = json_joueurTemp;
+                                json_partie.joueurs[parseInt(ordre)] =
+                                    json_partie.joueurs[parseInt(ordre) - 1];
+                                json_partie.joueurs[parseInt(ordre) - 1] = json_joueurTemp;
                             }
                             json_partie.joueurs
                             id_aRemonter = 0;
@@ -178,11 +412,11 @@ const content = () => {
                     let json_partie = restaurerPartie();
                     for (var ordre in json_partie.joueurs) {
                         json_joueurTemp = json_partie.joueurs[ordre];
-                        if (json_joueurTemp.id === id_aDescendre) {                           
+                        if (json_joueurTemp.id === id_aDescendre) {
                             if (ordre < json_partie.joueurs.length - 1) {
                                 json_partie.joueurs[parseInt(ordre)] =
                                     json_partie.joueurs[parseInt(ordre) + 1];
-                                json_partie.joueurs[parseInt(ordre)+1] = json_joueurTemp;
+                                json_partie.joueurs[parseInt(ordre) + 1] = json_joueurTemp;
                             }
                             json_partie.joueurs
                             id_aDescendre = 0;
@@ -214,7 +448,7 @@ const content = () => {
             "name": "input_checkboxCoupsAvance",
             "type": "checkbox",
             "value": "input_checkboxCoupsAvance"
-        },"");
+        }, "");
 
         input_checkboxCoupsAvance.onclick = (evt) => {
             let json_partie = restaurerPartie();
@@ -264,9 +498,11 @@ const content = () => {
                 sauvegarderPartie(json_partie);
                 let div_nouvellePartie = document.getElementById("div_nouvellePartie");
                 div_nouvellePartie.remove();
+
+                domTableauPartieEnCours();
             }
         }
-        
+
         div_boutonsResetCommencer.append(button_commencerPartie);
 
         div_nouvellePartie.append(div_boutonsResetCommencer);
@@ -287,7 +523,7 @@ const content = () => {
         let json_nouvellePartie = {
             "id": id_partie,
             "date": dateCourante.toISOString().replace("T", " ").slice(0, 19),
-            "coupsAvance" : true,
+            "coupsAvance": true,
             "joueurs": [],
             "etat": "config"
         };
@@ -301,6 +537,8 @@ const content = () => {
         let json_partie = restaurerPartie();
         if (json_partie.etat === "config") {
             domNouvellePartie();
+        } else if (json_partie.etat === "enCours") {
+            domTableauPartieEnCours();
         } else {
 
         }
@@ -315,102 +553,6 @@ function content() {
  
 
     if (yams_app) {
-
-        var les1 = {
-            name: "Les 1",
-            min: 0,
-            max: 5,
-            step: 1
-        };
-        var les2 = {
-            name: "Les 2",
-            min: 0,
-            max: 10,
-            step: 2
-        };
-        var les3 = {
-            name: "Les 3",
-            min: 0,
-            max: 15,
-            step: 3
-        };
-        var les4 = {
-            name: "Les 4",
-            min: 0,
-            max: 20,
-            step: 4
-        };
-        var les5 = {
-            name: "Les 5",
-            min: 0,
-            max: 25,
-            step: 5
-        };
-        var les6 = {
-            name: "Les 6",
-            min: 0,
-            max: 30,
-            step: 6
-        };
-        var somme = {
-            name: "Somme"
-        };
-        var bonus = {
-            name: "Bonus"
-        };
-        var brelan = {
-            name: "Brelan",
-            min: 0,
-            max: 30,
-            step: 1
-        };
-        var carré = {
-            name: "Carré",
-            min: 0,
-            max: 30,
-            step: 1
-        };
-        var full = {
-            name: "Full",
-            min: 0,
-            max: 25,
-            step: 25
-        };
-        var petiteSuite = {
-            name: "Petite Suite",
-            min: 0,
-            max: 30,
-            step: 30
-        };
-        var grandeSuite = {
-            name: "Grande Suite",
-            min: 0,
-            max: 40,
-            step: 40
-        };
-        var leYams = {
-            name: "Yams",
-            min: 0,
-            max: 50,
-            step: 50
-        };
-        var chance = {
-            name: "Chance",
-            min: 0,
-            max: 30,
-            step: 1
-        };
-        var coupsAvance = {
-            name: "[Coups d'avance]",
-            min: 0,
-            max: 50,
-            step: 1
-        };
-        var total = {
-            name: "Total"
-        };
-
-        var yams_array = [les1, les2, les3, les4, les5, les6, somme, bonus, brelan, carré, full, petiteSuite, grandeSuite, leYams, chance, coupsAvance, total];
 
         createPlayerInput();
 
